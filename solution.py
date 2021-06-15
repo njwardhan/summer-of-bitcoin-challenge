@@ -120,7 +120,7 @@ for rows in bitcoin_df.iterrows():
 fh.close()
 
 print('\n')
-print('The maximum possible miner fee is:', sum(store_fee_values),'satoshis')
-print('The total number of transactions to be included are:', len(store_fee_values))
-print('The total weight being carried in the block is:', sum(store_weight_values))
-print('The `block.txt` file is avaiable in the current working directory.')
+print('Maximum possible miner fee:', sum(store_fee_values),'satoshis')
+print('Total number of transactions to be included:', len(store_fee_values))
+print('Final total weight being carried in the block:', sum(store_weight_values), '\n')
+print('`block.txt` file avaiable in the current working directory.')
