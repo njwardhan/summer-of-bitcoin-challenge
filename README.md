@@ -1,2 +1,1 @@
-# summer-of-bitcoin-challenge
-https://summerofbitcoin.org/
+Attempting the Summer of Bitcoin code challenge! 
