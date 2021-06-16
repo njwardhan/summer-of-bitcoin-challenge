@@ -29,7 +29,6 @@ for index, rows in bitcoin_df_copy.iterrows():
             fee_array.append(rows[1])
             weight_array.append(rows[2])
         else:
-            pass
             bitcoin_df_copy.drop(index=index, axis=0)
 
     # For cases not having a parent transaction
