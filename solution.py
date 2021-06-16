@@ -10,29 +10,33 @@ from numba import jit
 
 ''' STEP-2 : Reading the 'mempool.csv' file as a Pandas dataframe (for easy data-handling) '''
 bitcoin_df = pd.read_csv('mempool.csv')
+bitcoin_df_copy = bitcoin_df.copy()
 
 
 ''' STEP-3 : Preparing arrays for the Knapsack appraoch, excluding the txids whose parent-transactions don't appear before them '''
 fee_array, weight_array, txids = [], [], []
 
 # Iterating over the rows of the dataframe and dropping the invalid ones
-for rows in bitcoin_df.iterrows():
-    parents = rows[1][3]
+for index, rows in bitcoin_df_copy.iterrows():
+    parents = rows[3]
 
     # For cases having a parent transaction
     if isinstance(parents, str):
         parent_ids = parents.split(';')
         if set(parent_ids).issubset(set(txids)):
         # If the parent transactions are there in the txids list, it is considered, else not.
-            txids.append(rows[1][0])
-            fee_array.append(rows[1][1])
-            weight_array.append(rows[1][2])
+            txids.append(rows[0])
+            fee_array.append(rows[1])
+            weight_array.append(rows[2])
+        else:
+            pass
+            bitcoin_df_copy.drop(index=index, axis=0)
 
     # For cases not having a parent transaction
     else:
-        txids.append(rows[1][0])
-        fee_array.append(rows[1][1])
-        weight_array.append(rows[1][2])
+        txids.append(rows[0])
+        fee_array.append(rows[1])
+        weight_array.append(rows[2])
 
 # Converting the 'fee' and 'weight' lists into numpy arrays for better handling (splitting them into sub-arrays)
 numpy_fee_split = np.split(np.array(fee_array), 42)
@@ -109,7 +113,7 @@ for k in range(42):
 fh = open('block.txt', 'w+')
 c = 0
 store_weight_values = []
-for rows in bitcoin_df.iterrows():
+for rows in bitcoin_df_copy.iterrows():
     if rows[1][1] == store_fee_values[c]:
     # Iterating over the rows and if the fee value matches that in the store_fee_values array, the transaction-id is written in the file.
     # The counter 'c' takes care that no two entries are repeated. 
