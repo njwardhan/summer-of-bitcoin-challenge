@@ -1,1 +1,1 @@
-Attempting the Summer of Bitcoin code challenge! 
+Summer of Bitcoin 2021 code challenge 
